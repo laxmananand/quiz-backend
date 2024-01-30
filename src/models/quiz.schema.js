@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 
 const quizSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true },
-    type: { type: String, enum: ["Q&A", "Poll"], required: true },
+    quizName: { type: String, required: true },
+    quizType: { type: String, enum: ["Q & A", "Poll"], required: true },
     questions: {
       type: Array,
       required: true,
