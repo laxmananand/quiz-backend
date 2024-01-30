@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const quizSchema = new mongoose.Schema(
   {
     quizName: { type: String, required: true },
-    quizType: { type: String, enum: ["Q & A", "Poll"], required: true },
+    quizType: { type: String, enum: ["Q & A", "Poll Type"], required: true },
     questions: {
       type: Array,
       required: true,
