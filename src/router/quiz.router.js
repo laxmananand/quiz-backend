@@ -41,7 +41,7 @@ router.get("/getquiz/:id", verifyJwt, async (req, res) => {
   }
 });
 
-router.get("/trendingquizzes", verifyJwt, async (req, res) => {
+router.get("/trendingQuizzes", verifyJwt, async (req, res) => {
   try {
     const quiz = await Quiz.find().sort({ createdAt: -1 }).limit(5);
     return res.json({ quiz, success: true });
@@ -68,7 +68,7 @@ router.get("/quizzes", verifyJwt, async (req, res) => {
   }
 });
 
-router.post("/quiz/:id/impression", verifyJwt, async (req, res) => {
+router.post("/:id/impression", verifyJwt, async (req, res) => {
   try {
     const { id } = req.params;
     const quiz = await Quiz.findById(id);
@@ -80,7 +80,7 @@ router.post("/quiz/:id/impression", verifyJwt, async (req, res) => {
   }
 });
 
-router.post("/quiz/:id/submit", verifyJwt, async (req, res) => {
+router.post("/:id/submit", verifyJwt, async (req, res) => {
   try {
     const { id } = req.params;
     const quiz = await Quiz.findById(id);
