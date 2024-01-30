@@ -73,7 +73,11 @@ router.get("/isloggedin", async (req, res) => {
     if (!user) {
       return res.status(400).json({ error: "user not found" });
     }
-    return res.json({ message: "user logged in", success: true });
+    return res.json({
+      message: "user logged in",
+      success: true,
+      email: user.email,
+    });
   } catch (err) {
     console.log("something went wrong", err);
   }
