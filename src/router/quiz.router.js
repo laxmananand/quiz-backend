@@ -60,7 +60,8 @@ router.get("/getquiz/:id", verifyJwt, async (req, res) => {
 
 router.get("/trendingQuizzes", verifyJwt, async (req, res) => {
   try {
-    const quiz = await Quiz.find().sort({ createdAt: -1 }).limit(5);
+    const email = req.query.email;
+    const quiz = await Quiz.find({ email }).sort({ createdAt: -1 }).limit(5);
     return res.status(200).json({ quiz, success: true });
   } catch (err) {
     console.log("quiz fetching failed", err);
