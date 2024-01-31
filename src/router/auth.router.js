@@ -23,9 +23,12 @@ router.post("/signup", async (req, res) => {
     // await user.save((err, data) => {
     //   if (err) console.log("something went wrong");
     // });
-    return res.json({ message: "user registered successfully", success: true });
+    return res
+      .status(200)
+      .json({ message: "user registered successfully", success: true });
   } catch (err) {
     console.log("registration failed", err);
+    return res.status(500).json({ error: "something went wrong" });
   }
 });
 
@@ -58,6 +61,7 @@ router.post("/login", async (req, res) => {
     });
   } catch (err) {
     console.log("login failed", err);
+    return res.status(500).json({ error: "something went wrong" });
   }
 });
 
@@ -73,13 +77,14 @@ router.get("/isloggedin", async (req, res) => {
     if (!user) {
       return res.status(400).json({ error: "user not found" });
     }
-    return res.json({
+    return res.status(200).json({
       message: "user logged in",
       success: true,
       email: user.email,
     });
   } catch (err) {
     console.log("something went wrong", err);
+    return res.status(500).json({ error: "something went wrong" });
   }
 });
 
@@ -94,9 +99,10 @@ router.post("/logout", async (req, res) => {
     if (!user) {
       res.status(400).json({ error: "user not found" });
     }
-    res.json({ message: "user logged out", success: true });
+    res.status(200).json({ message: "user logged out", success: true });
   } catch (err) {
     console.log("something went wrong", err);
+    return res.status(500).json({ error: "something went wrong" });
   }
 });
 
