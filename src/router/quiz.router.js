@@ -14,10 +14,14 @@ router.post("/createquiz", verifyJwt, async (req, res) => {
       questions,
       email: email,
     });
-    await quiz.save();
-    return res
-      .status(200)
-      .json({ message: "quiz created successfully", success: true });
+    //await quiz.save();
+    const data = await quiz.save();
+    console.log(data);
+    return res.status(200).json({
+      id: data._id,
+      message: "quiz created successfully",
+      success: true,
+    });
   } catch (err) {
     console.log("quiz creation failed", err);
     return res
@@ -77,14 +81,12 @@ router.get("/userData", verifyJwt, async (req, res) => {
       totalQuestions = totalQuestions + noOfQuestions;
       totalImpressions = totalImpressions + q.impressions;
     });
-    return res
-      .status(200)
-      .json({
-        quizzes: noofQuizzes,
-        questions: totalQuestions,
-        impressions: totalImpressions,
-        success: true,
-      });
+    return res.status(200).json({
+      quizzes: noofQuizzes,
+      questions: totalQuestions,
+      impressions: totalImpressions,
+      success: true,
+    });
   } catch (err) {
     console.log("quiz fetching failed", err);
     return res
@@ -95,8 +97,9 @@ router.get("/userData", verifyJwt, async (req, res) => {
 
 router.get("/quizzes", verifyJwt, async (req, res) => {
   try {
-    const quiz = await Quiz.find();
-    return res.status(200).json({ quiz, success: true });
+    const quizzes = await Quiz.find({ email: req.query.email });
+    console.log(quizzes);
+    return res.status(200).json({ quizzes, success: true });
   } catch (err) {
     console.log("quiz fetching failed", err);
     return res
@@ -129,6 +132,19 @@ router.post("/:id/submit", verifyJwt, async (req, res) => {
     return res.status(200).json({ quiz, success: true });
   } catch (err) {
     console.log("quiz submission failed", err);
+    return res
+      .status(500)
+      .json({ message: "Something went wrong", success: false });
+  }
+});
+
+router.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const quiz = await Quiz.findById(id).lean();
+    return res.status(200).json({ ...quiz, success: true });
+  } catch (err) {
+    console.log("quiz fetching failed", err);
     return res
       .status(500)
       .json({ message: "Something went wrong", success: false });

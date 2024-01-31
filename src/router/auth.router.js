@@ -68,7 +68,7 @@ router.get("/isloggedin", async (req, res) => {
       return res.status(400).json({ error: "token required" });
     }
     const decoded = await jwt.verify(token, process.env.SECRET_KEY);
-    console.log(decoded);
+    //console.log(decoded);
     const user = await User.findOne({ _id: decoded.user._id });
     if (!user) {
       return res.status(400).json({ error: "user not found" });
